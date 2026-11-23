@@ -1,0 +1,33 @@
+def simulate_crocodile_exhibit(events, initial_count, max_capacity):
+    croc_count = initial_count
+    feedings = 0
+    entries = 0
+    exits = 0
+    total_basking_time = 0
+
+    for event in events.split(';'):
+        time, action = event.split(' ', 1)
+        
+        if action == 'enter':
+            if croc_count < max_capacity:
+                croc_count += 1
+                entries += 1
+            continue
+        
+        if action == 'leave':
+            if croc_count > 0:
+                croc_count -= 1
+                exits += 1
+                if croc_count == 0:
+                    break
+            continue
+        
+        if action == 'feed':
+            feedings += 1
+            continue
+        
+        if action.startswith('bask'):
+            _, duration = action.split()
+            total_basking_time += int(duration)
+    
+    return f"Final count: {croc_count}, Feedings: {feedings}, Entries: {entries}, Exits: {exits}, Total basking time: {total_basking_time} minutes"
